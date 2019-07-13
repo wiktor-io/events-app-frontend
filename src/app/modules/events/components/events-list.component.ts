@@ -1,31 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
-import {shareReplay} from 'rxjs/operators';
-import {Observable} from 'rxjs';
-
-const EVENTS_LIST_QUERY = gql`
-          {
-            events: listEvents(filter: {}) {
-              id
-              name
-              description
-            }
-          }`;
-
-interface Event {
-  id: number;
-  name: string;
-  description: string;
-}
-
-interface Response {
-  events: Event[];
-}
-
-interface Variables {
-  filter: {};
-}
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Event, Variables, EVENTS_LIST_QUERY, EventsListService } from '../services/events-list.service';
 
 @Component({
   selector: 'app-events-list',
@@ -35,26 +12,29 @@ interface Variables {
 
 class EventsListComponent implements OnInit {
 
-  events$: Observable<any>;
+  events: Observable<Event[]>;
   loading$: Observable<boolean>;
   error$: Observable<any>;
   filter: Variables;
 
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo, private eventsListService: EventsListService) {}
 
   ngOnInit() {
-
+    console.log(this.events);
+    this.events = this.getEvents();
+    console.log(this.events);
   }
 
   getEvents() {
-    return this.apollo
-      .watchQuery<Response, Variables>({
-        query: EVENTS_LIST_QUERY,
-        variables: this.filter
-      })
+    return this.eventsListService.watch(this.filter)
       .valueChanges
-      .pipe(shareReplay(1));
+      .pipe(
+        map(result => {
+          return result.data.events;
+        })
+      );
   }
+
 }
 
 export {EVENTS_LIST_QUERY, EventsListComponent};
