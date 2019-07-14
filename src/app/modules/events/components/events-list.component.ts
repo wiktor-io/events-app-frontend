@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Event, Variables, EVENTS_LIST_QUERY, EventsListService } from '../services/events-list.service';
+import { Event, Variables, EventsListService } from '../services/events-list.service';
 
 @Component({
   selector: 'app-events-list',
   templateUrl: './events-list.component.html',
   styleUrls: ['./events-list.component.css']
 })
-
-class EventsListComponent implements OnInit {
+export class EventsListComponent implements OnInit {
 
   events: Observable<Event[]>;
+  columns: any[];
   loading$: Observable<boolean>;
   error$: Observable<any>;
   filter: Variables;
@@ -20,9 +20,11 @@ class EventsListComponent implements OnInit {
   constructor(private apollo: Apollo, private eventsListService: EventsListService) {}
 
   ngOnInit() {
-    console.log(this.events);
     this.events = this.getEvents();
-    console.log(this.events);
+    this.columns = [
+      {name: 'Name'},
+      {name: 'Description'}
+    ];
   }
 
   getEvents() {
@@ -36,5 +38,3 @@ class EventsListComponent implements OnInit {
   }
 
 }
-
-export {EVENTS_LIST_QUERY, EventsListComponent};
