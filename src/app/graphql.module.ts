@@ -7,7 +7,7 @@ const uri = 'http://localhost:8080/graphql'; // <-- add the URL of the GraphQL s
 export function createApollo(httpLink: HttpLink) {
   return {
     link: httpLink.create({uri}),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({resultCaching: false, freezeResults: false}),
   };
 }
 

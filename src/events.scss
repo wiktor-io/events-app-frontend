@@ -1,7 +1,21 @@
-@import "~node_modules/bootstrap/scss/bootstrap";
+//$enable-rounded: false;
+$border-radius:               .125rem;
+$border-radius-lg:            .1.5rem;
+$border-radius-sm:            .1rem;
+@import "~bootstrap/scss/bootstrap";
 
-$fa-font-path: "~node_modules/@fortawesome/fontawesome-free/webfonts";
-@import "~node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
-@import "~node_modules/@fortawesome/fontawesome-free/scss/solid";
-@import "~node_modules/@fortawesome/fontawesome-free/scss/brands";
-@import "~node_modules/@fortawesome/fontawesome-free/scss/regular";
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/v4-shims";
+
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/bootstrap.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+
+.datatable-body,
+.datatable-header {
+  max-width: 100%;
+}

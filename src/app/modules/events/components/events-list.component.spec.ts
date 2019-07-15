@@ -1,16 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EventsListComponent } from './events-list.component';
-import { ApolloTestingModule } from 'apollo-angular/testing';
-import { EventsListService } from '../services/events-list.service';
+import {ApolloTestingController, ApolloTestingModule} from 'apollo-angular/testing';
+import {EVENTS_LIST_QUERY, EventsListService} from '../services/events-list.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import {DatatableComponent, NgxDatatableModule} from '@swimlane/ngx-datatable';
+import { DatatableComponent, NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 describe('EventsListComponent', () => {
   let component: EventsListComponent;
   let datatableStubComponent: DatatableComponent;
   let datatableStubComponentFixture: ComponentFixture<DatatableComponent>;
   let fixture: ComponentFixture<EventsListComponent>;
+  let controller: ApolloTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,9 +21,11 @@ describe('EventsListComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
+
+    controller = TestBed.get(ApolloTestingController);
   });
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     fixture = TestBed.createComponent(EventsListComponent);
     datatableStubComponentFixture = TestBed.createComponent(DatatableComponent);
 
@@ -31,7 +34,39 @@ describe('EventsListComponent', () => {
 
     fixture.detectChanges();
     datatableStubComponentFixture.detectChanges();
-  }));
+
+    const op = controller.expectOne(EVENTS_LIST_QUERY);
+
+    op.flush({
+      data : {
+        events: [
+          {
+            id: 1,
+            name: 'Joe Bonamassa Live',
+            organiser: {
+              id: 1,
+              name: 'Edinburgh Playhouse',
+              description: ''
+            },
+            description: 'Different Shades Of Blue Live',
+            venue: 'Edinburgh Playhouse',
+            venue_location: 'Edinburgh',
+            availability: 150,
+            capacity: 200,
+            type: 'Music Concert',
+            category: 'Entertainment',
+            status: 'published',
+            recurrence: 'single',
+            date: '12/03/2019',
+            image: '/img.jpg',
+            price: 120
+          }
+        ]
+      }
+    });
+
+    controller.verify();
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

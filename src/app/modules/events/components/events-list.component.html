@@ -1,9 +1,371 @@
-<ngx-datatable
-  class="table"
-  [rows]="events | async"
-  [columns]="columns"
-  [columnMode]="'force'"
-  [headerHeight]="50"
-  [footerHeight]="50"
-  [rowHeight]="50">
-</ngx-datatable>
+<div class="row">
+  <div class="col-12">
+    <div class="dropdown">
+      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2 col-sm-12 col-md-auto p-0" role="group" aria-label="First group">
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-success mb-1" data-toggle="modal" data-target="#event-list-create-event">
+            <i class="fa fa-plus"></i> Add Event
+          </button>
+
+          <!-- Modal -->
+          <div #createEventModal class="modal fade" id="event-list-create-event" tabindex="-1" role="dialog" aria-labelledby="event-list-create-event-modal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <form (submit)="createEvent()">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="event-list-create-event-modal">Add Event</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <div class="input-group mb-3">
+                        <label for="event-list-create-event-name" class="col-sm-12 col-md-3 p-0">Name:</label>
+                        <input type="text" class="form-control col-sm-12 col-md-9" name="name" id="event-list-create-event-name" [(ngModel)]="newEvent.name">
+                      </div>
+                      <div class="input-group mb-3">
+                        <label for="event-list-create-event-organiser" class="col-sm-12 col-md-3 p-0">Organiser:</label>
+                        <select class="form-control col-sm-12 col-md-9 p-0" name="organiser" id="event-list-create-event-organiser" [(ngModel)]="newEvent.organiser">
+                          <option [ngValue]="null">Organiser...</option>
+                          <option [ngValue]="1">Edinburgh Playhouse</option>
+                        </select>
+                      </div>
+                      <div class="input-group mb-3">
+                        <label for="event-list-create-event-type" class="col-sm-12 col-md-3 p-0">Type:</label>
+                        <select class="form-control col-sm-12 col-md-9 p-0" name="type" id="event-list-create-event-type" [(ngModel)]="newEvent.type">
+                          <option [ngValue]="null">Type...</option>
+                          <option [ngValue]="'Appearance or Signing'">Appearance or Signing</option>
+                          <option [ngValue]="'Attraction'">Attraction</option>
+                          <option [ngValue]="'Camp, Trip or Retreat'">Camp, Trip or Retreat</option>
+                          <option [ngValue]="'Concert or Performance'">Concert or Performance</option>
+                          <option [ngValue]="'Conference'">Conference</option>
+                          <option [ngValue]="'Convention'">Convention</option>
+                          <option [ngValue]="'Course, Training or Workshop'">Course, Training or Workshop</option>
+                          <option [ngValue]="'Dinner or Gala'">Dinner or Gala</option>
+                          <option [ngValue]="'Festival or Fair'">Festival or Fair</option>
+                          <option [ngValue]="'Game or Competition'">Game or Competition</option>
+                          <option [ngValue]="'Meeting or Networking Event'">Meeting or Networking Event</option>
+                          <option [ngValue]="'Other'">Other</option>
+                          <option [ngValue]="'Party or Social Gathering'">Party or Social Gathering</option>
+                          <option [ngValue]="'Race or Endurance Event'">Race or Endurance Event</option>
+                          <option [ngValue]="'Rally'">Rally</option>
+                          <option [ngValue]="'Screening'">Screening</option>
+                          <option [ngValue]="'Seminar or Talk'">Seminar or Talk</option>
+                          <option [ngValue]="'Tour'">Tour</option>
+                          <option [ngValue]="'Tournament'">Tournament</option>
+                          <option [ngValue]="'Tradeshow, Consumer Show or Expo'">Tradeshow, Consumer Show or Expo</option>
+                        </select>
+                      </div>
+                      <div class="input-group mb-3">
+                        <label for="event-list-create-event-category" class="col-sm-12 col-md-3 p-0">Category:</label>
+                        <select class="form-control col-sm-12 col-md-9 p-0" name="category" id="event-list-create-event-category" [(ngModel)]="newEvent.category">
+                          <option value="" data-spec="select-option">Category</option>
+                          <option [ngValue]="'Auto, Boat &amp; Air'">Auto, Boat &amp; Air</option>
+                          <option [ngValue]="'Business &amp; Professional'">Business &amp; Professional</option>
+                          <option [ngValue]="'Charities &amp; Causes'">Charities &amp; Causes</option>
+                          <option [ngValue]="'Community &amp; Culture'">Community &amp; Culture</option>
+                          <option [ngValue]="'Family &amp; Education'">Family &amp; Education</option>
+                          <option [ngValue]="'Fashion &amp; Beauty'">Fashion &amp; Beauty</option>
+                          <option [ngValue]="'Film, Media &amp; Entertainment'">Film, Media &amp; Entertainment</option>
+                          <option [ngValue]="'Food &amp; Drink'">Food &amp; Drink</option>
+                          <option [ngValue]="'Government &amp; Politics'">Government &amp; Politics</option>
+                          <option [ngValue]="'Health &amp; Wellness'">Health &amp; Wellness</option>
+                          <option [ngValue]="'Hobbies &amp; Special Interests'">Hobbies &amp; Special Interests</option>
+                          <option [ngValue]="'Home &amp; Lifestyle'">Home &amp; Lifestyle</option>
+                          <option [ngValue]="'Music'">Music</option>
+                          <option [ngValue]="'Other'">Other</option>
+                          <option [ngValue]="'Performing &amp; Visual Arts'">Performing &amp; Visual Arts</option>
+                          <option [ngValue]="'Religion &amp; Spirituality'">Religion &amp; Spirituality</option>
+                          <option [ngValue]="'School Activities'">School Activities</option>
+                          <option [ngValue]="'Science &amp; Technology'">Science &amp; Technology</option>
+                          <option [ngValue]="'Seasonal'">Seasonal</option>
+                          <option [ngValue]="'Sports &amp; Fitness'">Sports &amp; Fitness</option>
+                          <option [ngValue]="'Travel &amp; Outdoor'">Travel &amp; Outdoor</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3">
+                      <label for="event-list-create-event-availability" class="col-sm-12 col-md-3 p-0">Availability:</label>
+                      <input type="text" class="form-control col-sm-12 col-md-9" name="availability" id="event-list-create-event-availability" [(ngModel)]="newEvent.availability">
+                    </div>
+                    <div class="input-group mb-3">
+                      <label for="event-list-create-event-capacity" class="col-sm-12 col-md-3 p-0">Capacity:</label>
+                      <input type="text" class="form-control col-sm-12 col-md-9" name="capacity" id="event-list-create-event-capacity" [(ngModel)]="newEvent.capacity">
+                    </div>
+                    <div class="input-group mb-3">
+                      <label for="event-list-create-event-recurrence" class="col-sm-12 col-md-3 p-0">Recurrence:</label>
+                      <select class="form-control col-sm-12 col-md-9" name="recurrence" id="event-list-create-event-recurrence" [(ngModel)]="newEvent.recurrence">
+                        <option [ngValue]="null">Recurrence...</option>
+                        <option [ngValue]="'Weekly'">Weekly</option>
+                        <option [ngValue]="'Monthly'">Monthly</option>
+                        <option [ngValue]="'Annually'">Annually</option>
+                        <option [ngValue]="'Custom Schedule'">Custom Schedule</option>
+                      </select>
+                    </div>
+                    <div class="input-group mb-3">
+                      <label for="event-list-create-event-date" class="col-sm-12 col-md-3 p-0">Date:</label>
+                      <input type="date" class="form-control col-sm-12 col-md-9" name="date" id="event-list-create-event-date" [(ngModel)]="newEvent.date" />
+                    </div>
+                    <div class="input-group mb-3">
+                      <label for="event-list-create-event-status" class="col-sm-12 col-md-3 p-0">Status:</label>
+                      <select class="form-control col-sm-12 col-md-9" name="status" id="event-list-create-event-status" [(ngModel)]="newEvent.status">
+                        <option [ngValue]="null">Status...</option>
+                        <option [ngValue]="'Published'">Published</option>
+                        <option [ngValue]="'Draft'">Draft</option>
+                      </select>
+                    </div>
+                    <div class="input-group mb-3">
+                      <label for="event-list-create-event-price" class="col-sm-12 col-md-3 p-0">Price:</label>
+                      <input type="number" class="form-control col-sm-12 col-md-9" name="price" id="event-list-create-event-price" [(ngModel)]="newEvent.price" />
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Event</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div #editEventModal class="modal fade" id="event-list-edit-event" tabindex="-1" role="dialog" aria-labelledby="event-list-edit-event-modal" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <form (submit)="updateEvent()">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="event-list-edit-event-modal">Edit Event</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <label for="event-list-edit-event-name" class="col-sm-12 col-md-3 p-0">Name:</label>
+                      <input type="text" class="form-control col-sm-12 col-md-9" name="name" id="event-list-edit-event-name" [(ngModel)]="editEvent.name">
+                    </div>
+                    <div class="input-group mb-3">
+                      <label for="event-list-edit-event-organiser" class="col-sm-12 col-md-3 p-0">Organiser:</label>
+                      <select class="form-control col-sm-12 col-md-9 p-0" name="organiser" id="event-list-edit-event-organiser" [(ngModel)]="editEvent.organiser">
+                        <option [ngValue]="null">Organiser...</option>
+                        <option [ngValue]="1">Edinburgh Playhouse</option>
+                      </select>
+                    </div>
+                    <div class="input-group mb-3">
+                      <label for="event-list-edit-event-type" class="col-sm-12 col-md-3 p-0">Type:</label>
+                      <select class="form-control col-sm-12 col-md-9 p-0" name="type" id="event-list-edit-event-type" [(ngModel)]="editEvent.type">
+                        <option [ngValue]="null">Type...</option>
+                        <option [ngValue]="'Appearance or Signing'">Appearance or Signing</option>
+                        <option [ngValue]="'Attraction'">Attraction</option>
+                        <option [ngValue]="'Camp, Trip or Retreat'">Camp, Trip or Retreat</option>
+                        <option [ngValue]="'Concert or Performance'">Concert or Performance</option>
+                        <option [ngValue]="'Conference'">Conference</option>
+                        <option [ngValue]="'Convention'">Convention</option>
+                        <option [ngValue]="'Course, Training or Workshop'">Course, Training or Workshop</option>
+                        <option [ngValue]="'Dinner or Gala'">Dinner or Gala</option>
+                        <option [ngValue]="'Festival or Fair'">Festival or Fair</option>
+                        <option [ngValue]="'Game or Competition'">Game or Competition</option>
+                        <option [ngValue]="'Meeting or Networking Event'">Meeting or Networking Event</option>
+                        <option [ngValue]="'Other'">Other</option>
+                        <option [ngValue]="'Party or Social Gathering'">Party or Social Gathering</option>
+                        <option [ngValue]="'Race or Endurance Event'">Race or Endurance Event</option>
+                        <option [ngValue]="'Rally'">Rally</option>
+                        <option [ngValue]="'Screening'">Screening</option>
+                        <option [ngValue]="'Seminar or Talk'">Seminar or Talk</option>
+                        <option [ngValue]="'Tour'">Tour</option>
+                        <option [ngValue]="'Tournament'">Tournament</option>
+                        <option [ngValue]="'Tradeshow, Consumer Show or Expo'">Tradeshow, Consumer Show or Expo</option>
+                      </select>
+                    </div>
+                    <div class="input-group mb-3">
+                      <label for="event-list-edit-event-category" class="col-sm-12 col-md-3 p-0">Category:</label>
+                      <select class="form-control col-sm-12 col-md-9 p-0" name="category" id="event-list-edit-event-category" [(ngModel)]="editEvent.category">
+                        <option value="" data-spec="select-option">Category</option>
+                        <option [ngValue]="'Auto, Boat &amp; Air'">Auto, Boat &amp; Air</option>
+                        <option [ngValue]="'Business &amp; Professional'">Business &amp; Professional</option>
+                        <option [ngValue]="'Charities &amp; Causes'">Charities &amp; Causes</option>
+                        <option [ngValue]="'Community &amp; Culture'">Community &amp; Culture</option>
+                        <option [ngValue]="'Family &amp; Education'">Family &amp; Education</option>
+                        <option [ngValue]="'Fashion &amp; Beauty'">Fashion &amp; Beauty</option>
+                        <option [ngValue]="'Film, Media &amp; Entertainment'">Film, Media &amp; Entertainment</option>
+                        <option [ngValue]="'Food &amp; Drink'">Food &amp; Drink</option>
+                        <option [ngValue]="'Government &amp; Politics'">Government &amp; Politics</option>
+                        <option [ngValue]="'Health &amp; Wellness'">Health &amp; Wellness</option>
+                        <option [ngValue]="'Hobbies &amp; Special Interests'">Hobbies &amp; Special Interests</option>
+                        <option [ngValue]="'Home &amp; Lifestyle'">Home &amp; Lifestyle</option>
+                        <option [ngValue]="'Music'">Music</option>
+                        <option [ngValue]="'Other'">Other</option>
+                        <option [ngValue]="'Performing &amp; Visual Arts'">Performing &amp; Visual Arts</option>
+                        <option [ngValue]="'Religion &amp; Spirituality'">Religion &amp; Spirituality</option>
+                        <option [ngValue]="'School Activities'">School Activities</option>
+                        <option [ngValue]="'Science &amp; Technology'">Science &amp; Technology</option>
+                        <option [ngValue]="'Seasonal'">Seasonal</option>
+                        <option [ngValue]="'Sports &amp; Fitness'">Sports &amp; Fitness</option>
+                        <option [ngValue]="'Travel &amp; Outdoor'">Travel &amp; Outdoor</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="input-group mb-3">
+                    <label for="event-list-edit-event-availability" class="col-sm-12 col-md-3 p-0">Availability:</label>
+                    <input type="text" class="form-control col-sm-12 col-md-9" name="availability" id="event-list-edit-event-availability" [(ngModel)]="editEvent.availability">
+                  </div>
+                  <div class="input-group mb-3">
+                    <label for="event-list-edit-event-capacity" class="col-sm-12 col-md-3 p-0">Capacity:</label>
+                    <input type="text" class="form-control col-sm-12 col-md-9" name="capacity" id="event-list-edit-event-capacity" [(ngModel)]="editEvent.capacity">
+                  </div>
+                  <div class="input-group mb-3">
+                    <label for="event-list-edit-event-recurrence" class="col-sm-12 col-md-3 p-0">Recurrence:</label>
+                    <select class="form-control col-sm-12 col-md-9" name="recurrence" id="event-list-edit-event-recurrence" [(ngModel)]="editEvent.recurrence">
+                      <option [ngValue]="null">Recurrence...</option>
+                      <option [ngValue]="'Weekly'">Weekly</option>
+                      <option [ngValue]="'Monthly'">Monthly</option>
+                      <option [ngValue]="'Annually'">Annually</option>
+                      <option [ngValue]="'Custom Schedule'">Custom Schedule</option>
+                    </select>
+                  </div>
+                  <div class="input-group mb-3">
+                    <label for="event-list-edit-event-date" class="col-sm-12 col-md-3 p-0">Date:</label>
+                    <input type="date" class="form-control col-sm-12 col-md-9" name="date" id="event-list-edit-event-date" [(ngModel)]="editEvent.date" />
+                  </div>
+                  <div class="input-group mb-3">
+                    <label for="event-list-edit-event-status" class="col-sm-12 col-md-3 p-0">Status:</label>
+                    <select class="form-control col-sm-12 col-md-9" name="status" id="event-list-edit-event-status" [(ngModel)]="editEvent.status">
+                      <option [ngValue]="null">Status...</option>
+                      <option [ngValue]="'Published'">Published</option>
+                      <option [ngValue]="'Draft'">Draft</option>
+                    </select>
+                  </div>
+                  <div class="input-group mb-3">
+                    <label for="event-list-edit-event-price" class="col-sm-12 col-md-3 p-0">Price:</label>
+                    <input type="number" class="form-control col-sm-12 col-md-9" name="price" id="event-list-edit-event-price" [(ngModel)]="editEvent.price" />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save Event</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-group mr-2 col-sm-12 col-md-auto p-0" role="group" aria-label="Second group">
+          <button class="btn btn-outline-secondary dropdown-toggle mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-search"></i> Search Events
+          </button>
+          <div class="dropdown-menu col-sm-12 col-md-auto p-0" aria-labelledby="dropdownMenuButton">
+            <form class="p-3" (submit)="refreshEvents()" (reset)="refreshEvents()">
+              <div class="form-group">
+                <label for="event-list-variables-filter-name">Name:</label>
+                <input type="text" name="name" id="event-list-variables-filter-name" class="form-control" [(ngModel)]="filter.name">
+              </div>
+              <div class="form-group">
+                <label for="event-list-variables-filter-organiser">Organiser:</label>
+                <select class="form-control" name="organiser" id="event-list-variables-filter-organiser" [(ngModel)]="filter.organiser">
+                  <option [ngValue]="null">Organiser...</option>
+                  <option [ngValue]="1">Edinburgh Playhouse</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="event-list-variables-filter-status">Status:</label>
+                <select class="form-control" name="status" id="event-list-variables-filter-status" [(ngModel)]="filter.status">
+                  <option [ngValue]="null">Status...</option>
+                  <option [ngValue]="'Published'">Published</option>
+                  <option [ngValue]="'Draft'">Draft</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="event-list-variables-filter-price_from">Price From:</label>
+                <input type="number" name="price_from" placeholder="0.00" id="event-list-variables-filter-price_from" class="form-control" [(ngModel)]="filter.price_from">
+              </div>
+              <div class="form-group">
+                <label for="event-list-variables-filter-price_to">Price To:</label>
+                <input type="number" name="price_to" placeholder="100.00" id="event-list-variables-filter-price_to" class="form-control" [(ngModel)]="filter.price_to">
+              </div>
+              <div class="btn-group mb-1 mr-1">
+                <button class="btn btn-primary btn-sm" type="submit">
+                  Search
+                </button>
+              </div>
+              <div class="btn-group mb-1">
+                <button class="btn btn-outline-secondary btn-sm" type="reset">
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <ngx-datatable
+    class="bootstrap col-12"
+    [rows]="events | async"
+    [columnMode]="'standard'"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [limit]="10"
+    [rowHeight]="50"
+    [scrollbarH]="true">
+    <ngx-datatable-column name="Edit">
+      <ng-template let-event="row" ngx-datatable-cell-template>
+        <span (click)="openEditModal(event)"><i class="fa fa-edit"></i></span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Name">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Availability">
+      <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+        <div style="border:solid 1px #ddd;margin:0;padding:3px;position: relative;" *ngIf="row['availability'] && row['capacity']">
+          <div style="background:#5ca3d7;height:15px;" [style.width]="row['availability']/row['capacity'] * 100 + '%'">
+            <span style="position: absolute; top: 50%;left:50%;transform: translate(-50%, -50%)">{{row['availability']}}/{{row['capacity']}}</span>
+          </div>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Date">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Price">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span *ngIf="value">&pound;{{value}}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Organiser">
+      <ng-template let-organiser="value" ngx-datatable-cell-template>
+        {{organiser.name}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Venue">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Type">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Category">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Status">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>

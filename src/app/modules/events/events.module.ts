@@ -4,6 +4,8 @@ import { EventsListComponent } from './components/events-list.component';
 import { GraphQLModule } from '../../graphql.module';
 import { EventsListService } from './services/events-list.service';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { CreateEventService } from './services/create-event.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,10 +17,12 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
   imports: [
     CommonModule,
     GraphQLModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    FormsModule
   ],
   providers: [
-    EventsListService
+    EventsListService,
+    CreateEventService
   ]
 })
 export class EventsModule { }
